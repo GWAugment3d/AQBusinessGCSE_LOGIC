@@ -70,7 +70,7 @@
     "aqa_level_of_response_method": {
       "mandatory": true,
       "step_1_level": "Start at the lowest level; ladder up; choose best-fit overall quality; do not pick holes in minor omissions.",
-      "step_2_mark_within_level": "Award mark within that level; if response is mostly Level X but has some Level X+1, place at Level X but toward top of Level X.",
+      "step_2_mark_within_level": "Award mark within that level; if response is mostly Level X but has some Level X+1, place at Level X but toward top of that level.",
       "indicative_content_rule": "Indicative content is not exhaustive; credit other valid points if relevant.",
       "zero_rule": "Nothing worthy of credit = 0."
     }
@@ -492,21 +492,6 @@
           ]
         }
       ],
-      "award_floors": [
-        {
-          "id": "non_empty_applied_analysis_min_level_2",
-          "description": "Non-empty analyse responses with application and at least one analytical chain must not be awarded Level 0 or Level 1.",
-          "when_all_true": {
-            "answer_non_empty": true,
-            "ao2_application_detected": true,
-            "analysis_chain_links_min": 1
-          },
-          "enforce": {
-            "min_level": 2,
-            "min_mark": 3
-          }
-        }
-      ],
       "task_completion_caps": [
         {
           "if": "items_required==2 AND distinct_analysed_points<2",
@@ -565,12 +550,453 @@
             ]
           }
         },
-        "selection_rule": "If top checks met, award top_mark. Else if bottom checks met, award bottom_mark. Else award middle (rounded) within range."
+        "selection_rule": "If top checks met, award top_mark. Else if bottom checks met, award bottom_mark. Else award middle (for 6-mark L1/L2 have only 2 marks so 'middle' resolves to top if top checks met else bottom)."
+      },
+      "award_floors": [
+        {
+          "id": "non_empty_applied_analysis_min_level_2",
+          "description": "Non-empty analyse responses with application and at least one analytical chain must not be awarded Level 0 or Level 1.",
+          "when_all_true": {
+            "answer_non_empty": true,
+            "ao2_application_detected": true,
+            "analysis_chain_links_min": 1
+          },
+          "enforce": {
+            "min_level": 2,
+            "min_mark": 3
+          }
+        }
+      ]
+    },
+    "9_mark_recommend": {
+      "marks": 9,
+      "word_count_rules_ref": "word_count_logic.word_count_level_caps.9_mark_recommend",
+      "levels": [
+        {
+          "level": 0,
+          "mark_range": [
+            0,
+            0
+          ],
+          "descriptor": "Nothing worthy of credit.",
+          "hard_gates": [
+            "no_relevant_content"
+          ]
+        },
+        {
+          "level": 1,
+          "mark_range": [
+            1,
+            3
+          ],
+          "descriptor_features": [
+            "Generic points / AO1-heavy",
+            "No/minimal application",
+            "No developed chain of reasoning",
+            "No evaluation",
+            "No justified recommendation"
+          ],
+          "hard_gates": [
+            "some_relevant_business_content"
+          ]
+        },
+        {
+          "level": 2,
+          "mark_range": [
+            4,
+            6
+          ],
+          "descriptor_features": [
+            "Some application present",
+            "Some reasoning but shallow",
+            "Evaluation limited or implicit",
+            "Conclusion may be weakly justified"
+          ],
+          "hard_gates": [
+            "some_application_to_context",
+            "at_least_one_reasoned_point"
+          ]
+        },
+        {
+          "level": 3,
+          "mark_range": [
+            7,
+            9
+          ],
+          "descriptor_features": [
+            "Clear AO2 application + meaningful AO3",
+            "Multi-step chains",
+            "Evaluation (trade-offs / depends-on)",
+            "Explicit justified recommendation"
+          ],
+          "hard_gates": [
+            "clear_contextual_application",
+            "multi_step_reasoning_present",
+            "explicit_recommendation==true",
+            "justification_links_to_context"
+          ],
+          "top_mark_only_if": [
+            "balanced_evaluation==true",
+            "judgement_is_explicit==true",
+            "judgement_is_justified==true"
+          ]
+        }
+      ],
+      "caps": [
+        {
+          "if": "explicit_recommendation==false",
+          "max_level": 2,
+          "reason": "No recommendation given."
+        },
+        {
+          "if": "ao2_evidence==false",
+          "max_level": 2,
+          "reason": "No credible context application."
+        }
+      ],
+      "within_level_grid": {
+        "level_1": {
+          "marks": [
+            1,
+            2,
+            3
+          ],
+          "checks": {
+            "1": [
+              "application_absent==true",
+              "analysis_chains==0"
+            ],
+            "2": [
+              "some_application_to_context==true OR analysis_chains>=1"
+            ],
+            "3": [
+              "some_application_to_context==true",
+              "analysis_chains>=1",
+              "recommendation_present==true"
+            ]
+          }
+        },
+        "level_2": {
+          "marks": [
+            4,
+            5,
+            6
+          ],
+          "checks": {
+            "4": [
+              "application_present_but_thin==true",
+              "analysis_chains==1",
+              "evaluation_present==false OR evaluation_is_tokenistic==true"
+            ],
+            "5": [
+              "some_application_to_context==true",
+              "analysis_chains>=1",
+              "evaluation_present==true OR justification_present==true"
+            ],
+            "6": [
+              "clear_contextual_application==true",
+              "analysis_chains>=2 OR chain_is_two_link_or_more==true",
+              "evaluation_present==true",
+              "recommendation_present==true"
+            ]
+          }
+        },
+        "level_3": {
+          "marks": [
+            7,
+            8,
+            9
+          ],
+          "checks": {
+            "7": [
+              "meets_level_3_gates==true",
+              "evaluation_present==true",
+              "judgement_is_explicit==false OR judgement_is_justified==false"
+            ],
+            "8": [
+              "meets_level_3_gates==true",
+              "evaluation_present==true",
+              "judgement_is_explicit==true",
+              "justification_links_to_context==true",
+              "balance_present==true OR depends_on_present==true"
+            ],
+            "9": [
+              "meets_level_3_gates==true",
+              "balanced_evaluation==true",
+              "judgement_is_explicit==true",
+              "judgement_is_justified==true",
+              "sustained_coherent_reasoning==true"
+            ]
+          }
+        },
+        "selection_rule": "Pick the highest mark in the awarded level whose checks are satisfied. If none satisfied, pick the lowest mark in that level."
       }
     },
-
-    // ... REST OF YOUR CONFIG CONTINUES UNCHANGED ...
-    // NOTE: I’m keeping the remainder exactly as-is; paste the full file from your source
-    // If you want me to include the remaining 800+ lines in this message too, say “include full file” and I will output it.
+    "12_mark_evaluate": {
+      "marks": 12,
+      "word_count_rules_ref": "word_count_logic.word_count_level_caps.12_mark_evaluate",
+      "levels": [
+        {
+          "level": 0,
+          "mark_range": [
+            0,
+            0
+          ],
+          "descriptor": "Nothing worthy of credit.",
+          "hard_gates": [
+            "no_relevant_content"
+          ]
+        },
+        {
+          "level": 1,
+          "mark_range": [
+            1,
+            3
+          ],
+          "descriptor_features": [
+            "AO1 only",
+            "Generic",
+            "No evaluation",
+            "No developed reasoning"
+          ]
+        },
+        {
+          "level": 2,
+          "mark_range": [
+            4,
+            6
+          ],
+          "descriptor_features": [
+            "Some AO2",
+            "Limited analysis",
+            "Balance mentioned not weighed"
+          ],
+          "hard_gates": [
+            "some_application_to_context"
+          ]
+        },
+        {
+          "level": 3,
+          "mark_range": [
+            7,
+            9
+          ],
+          "descriptor_features": [
+            "Good AO2",
+            "Some evaluation",
+            "Judgement not fully justified"
+          ],
+          "hard_gates": [
+            "good_application_to_context",
+            "some_analysis_present",
+            "some_evaluative_language_present"
+          ]
+        },
+        {
+          "level": 4,
+          "mark_range": [
+            10,
+            12
+          ],
+          "descriptor_features": [
+            "Balanced evaluation (two sides developed)",
+            "Sustained multi-step reasoning",
+            "Explicit justified conditional judgement",
+            "Context-specific consequences"
+          ],
+          "hard_gates": [
+            "balanced_evaluation==true",
+            "multi_step_reasoning_present==true",
+            "judgement_is_explicit==true",
+            "judgement_is_justified==true",
+            "context_specific_consequences==true"
+          ]
+        }
+      ],
+      "caps": [
+        {
+          "if": "judgement_present==false",
+          "max_level": 3,
+          "reason": "No judgement at 12-mark tariff."
+        },
+        {
+          "if": "balanced_evaluation==false",
+          "max_level": 3,
+          "reason": "No balanced evaluation prevents Level 4."
+        }
+      ],
+      "within_level_grid": {
+        "level_1": {
+          "marks": [
+            1,
+            2,
+            3
+          ],
+          "checks": {
+            "1": [
+              "relevant_content_is_minimal==true",
+              "ao2_evidence==false"
+            ],
+            "2": [
+              "some_relevant_business_content==true",
+              "ao2_evidence==false OR context_is_thin==true"
+            ],
+            "3": [
+              "some_application_to_context==true OR analysis_chains>=1"
+            ]
+          }
+        },
+        "level_2": {
+          "marks": [
+            4,
+            5,
+            6
+          ],
+          "checks": {
+            "4": [
+              "some_application_to_context==true",
+              "analysis_chains==0 OR analysis_is_thin==true",
+              "balance_present==false"
+            ],
+            "5": [
+              "some_application_to_context==true",
+              "analysis_chains>=1",
+              "balance_present==true OR two_sides_mentioned==true"
+            ],
+            "6": [
+              "good_application_to_context==true",
+              "analysis_chains>=2",
+              "judgement_present==true"
+            ]
+          }
+        },
+        "level_3": {
+          "marks": [
+            7,
+            8,
+            9
+          ],
+          "checks": {
+            "7": [
+              "meets_level_3_gates==true",
+              "balance_present==true",
+              "judgement_is_fully_justified==false"
+            ],
+            "8": [
+              "meets_level_3_gates==true",
+              "analysis_chains>=2",
+              "some_evaluation_present==true",
+              "judgement_present==true"
+            ],
+            "9": [
+              "meets_level_3_gates==true",
+              "balanced_evaluation==true OR balance_is_strong==true",
+              "judgement_is_explicit==true",
+              "judgement_is_justified==true"
+            ]
+          }
+        },
+        "level_4": {
+          "marks": [
+            10,
+            11,
+            12
+          ],
+          "checks": {
+            "10": [
+              "meets_level_4_gates==true",
+              "two_sides_developed_min==2",
+              "conditional_or_prioritised_factor==false OR reasoning_is_less_sustained==true"
+            ],
+            "11": [
+              "meets_level_4_gates==true",
+              "two_sides_developed_min==2",
+              "conditional_or_prioritised_factor==true",
+              "reasoning_is_sustained==true"
+            ],
+            "12": [
+              "meets_level_4_gates==true",
+              "two_sides_developed_min==2",
+              "conditional_or_prioritised_factor==true",
+              "reasoning_is_sustained==true",
+              "evaluation_on_both_sides==true",
+              "explicit_prioritised_factor==true"
+            ]
+          }
+        },
+        "selection_rule": "Pick the highest mark in the awarded level whose checks are satisfied. If none satisfied, pick the lowest mark in that level."
+      }
+    }
+  },
+  "feature_detectors": {
+    "analysis_chain_markers": [
+      "because",
+      "this means",
+      "as a result",
+      "therefore",
+      "which leads to",
+      "so that"
+    ],
+    "evaluation_markers": [
+      "however",
+      "on the other hand",
+      "the drawback",
+      "depends on",
+      "overall",
+      "in the long term"
+    ],
+    "judgement_markers": [
+      "overall",
+      "the best option is",
+      "ultimately",
+      "the most significant factor is",
+      "this is because"
+    ],
+    "list_style_detector": {
+      "definition": "Multiple undeveloped points or bullet-like claims with few connectives/consequences.",
+      "signals": [
+        "repeated_short_sentences",
+        "lack_of_connectives",
+        "no_consequence_language"
+      ]
+    }
+  },
+  "quant_rules": {
+    "calculation_marking": {
+      "if_ms_method_specified": "Follow MS method marking rules",
+      "if_method_correct_but_final_wrong": "Award method marks if MS allows",
+      "own_figure_rule_enabled": true
+    },
+    "data_in_long_answers": {
+      "if_question_requires_data_use": "Cap level if data not used meaningfully (not just copied).",
+      "meaningful_use_definition": "Data is used to support a claim or judgement (compare, calculate, infer)."
+    }
+  },
+  "output_contract": {
+    "required_output_fields": [
+      "question_id",
+      "mark_value",
+      "detected_command_word",
+      "detected_items_required",
+      "detected_task_components",
+      "detected_ao_profile",
+      "detected_word_count",
+      "level_awarded"
+      "mark_awarded",
+      "within_level_position",
+      "within_level_position_checks",
+      "mark_selection_rationale",
+      "why_level_evidence",
+      "why_not_next_level_evidence",
+      "cap_applied_if_any",
+      "evidence_bullets",
+      "missing_or_weak_elements",
+      "next_steps_questions"
+    ],
+    "format_rules": {
+      "feedback_compact": true,
+      "tick_cross_style_allowed": true,
+      "next_steps_must_end_with_question": true
+    }
   }
 }
