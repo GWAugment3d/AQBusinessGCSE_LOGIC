@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DeepMark Extraction Schema v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["paper_meta", "extractedAnswers", "transcriptRaw"],
+  "properties": {
+    "paper_meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["student_name"],
+      "properties": {
+        "student_name": { "type": "string" },
+        "student_year": { "type": "string" },
+        "test_title": { "type": "string" },
+        "test_date": { "type": "string" }
+      }
+    },
+    "transcriptRaw": { "type": "string" },
+
+    "extractedAnswers": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(0[1-9]|[1-9][0-9])\\.[1-9][0-9]?$": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["qid", "text"],
+          "properties": {
+            "qid": { "type": "string" },
+            "text": { "type": "string" },
+            "source": { "type": "string" },
+            "wordCount": { "type": "integer" },
+            "charCount": { "type": "integer" },
+            "diagnosticNote": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
