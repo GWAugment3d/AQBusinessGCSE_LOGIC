@@ -1,0 +1,100 @@
+{
+  "schema_name": "deepmark_output_schema",
+  "schema_version": "out_v1.1.0",
+  "output_format": "json_only",
+  "required_top_level_keys": ["paper_meta", "short_answers", "extended_answers"],
+  "paper_meta": {
+    "required": [
+      "student_name",
+      "student_year",
+      "test_title",
+      "test_date",
+      "paper_id",
+      "total_score",
+      "total_marks",
+      "percent"
+    ],
+    "types": {
+      "student_name": "string",
+      "student_year": "string",
+      "test_title": "string",
+      "test_date": "string",
+      "paper_id": "string",
+      "total_score": "number",
+      "total_marks": "number",
+      "percent": "number"
+    }
+  },
+  "short_answers": {
+    "item_shape": {
+      "required": ["qid", "student_answer", "correct_answer", "status"],
+      "types": {
+        "qid": "string",
+        "student_answer": "string",
+        "correct_answer": "string",
+        "status": "string"
+      },
+      "status_allowed": ["✓", "✗", "?"]
+    }
+  },
+  "extended_answers": {
+    "item_shape": {
+      "required": [
+        "qid",
+        "marks_awarded",
+        "marks_total",
+        "level_label",
+        "level_explanation",
+        "missing_rule",
+        "checklist",
+        "inline_annotations",
+        "fix_it_activity"
+      ],
+      "types": {
+        "qid": "string",
+        "marks_awarded": "number",
+        "marks_total": "number",
+        "level_label": "string",
+        "level_explanation": "string",
+        "missing_rule": "string"
+      },
+      "missing_rule_allowed": [
+        "two sides",
+        "clear comparison",
+        "final decision",
+        "linked explanation"
+      ],
+      "checklist_shape": {
+        "max_items": 5,
+        "item_required": ["item", "status"],
+        "item_allowed": [
+          "Used the case",
+          "Explained effects",
+          "Built a chain",
+          "Compared two sides",
+          "Final decision"
+        ],
+        "status_allowed": ["✓", "~", "✗"]
+      },
+      "inline_annotations_shape": {
+        "max_items": 8,
+        "required": ["anchor", "token", "note"],
+        "token_pattern": "^[\\[]([✓~✗\\?])(AO1-k|AO2-app|AO3-an|AO3-eval)[\\]]$",
+        "note_max_words": 12,
+        "anchor_examples": [
+          "sentence:1",
+          "sentence:2",
+          "span:costs",
+          "span:footfall"
+        ]
+      },
+      "fix_it_activity_shape": {
+        "required": ["title", "direct_question", "sentence_starter"],
+        "title_must_be": "Now improve this point",
+        "direct_question_max_words": 14,
+        "sentence_starter_max_words": 12,
+        "sentence_starter_must_end_with": "…"
+      }
+    }
+  }
+}
