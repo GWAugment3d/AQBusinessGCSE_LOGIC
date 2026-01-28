@@ -1,0 +1,132 @@
+{
+  "contract_name": "deepmark_report_contract",
+  "contract_version": "rep_v1.3.0",
+  "target_spec": "AQA_GCSE_Business_8132",
+  "page_budget": {
+    "pdf_pages_total": 2,
+    "paper_size": "A4",
+    "print_mode": "double_sided",
+    "density_mode": "space_efficient"
+  },
+  "page1_header": {
+    "enabled": true,
+    "position": "top_of_page_1",
+    "max_lines": 4,
+    "must_include": ["student_name", "student_year", "test_title", "test_date"],
+    "optional_compact_meta": ["total_score", "total_marks", "percent"],
+    "layout_style": "title_then_compact_meta_rows"
+  },
+  "report_sections": {
+    "order": ["short_answer_grid", "extended_response_cards"],
+    "short_answer_grid": {
+      "enabled": true,
+      "cell_style": "tight",
+      "show_only": ["qid", "student_answer", "correct_answer", "status_symbol"],
+      "max_hint_words_when_wrong": 0
+    },
+    "extended_response_cards": {
+      "enabled": true,
+      "cards_per_page_target": 2,
+      "card_style": "compact",
+      "max_card_height_fraction_of_page": 0.44,
+      "max_inline_annotations_to_display": 4
+    }
+  },
+  "extended_markers": {
+    "apply_to_marks": [6, 9, 12],
+    "required_blocks": [
+      "score_and_level_label",
+      "one_line_level_explanation",
+      "checklist_row",
+      "fix_it_activity"
+    ]
+  },
+  "score_and_level_label": {
+    "student_facing_level_labels": [
+      "Basic",
+      "Secure but thin",
+      "Strong start",
+      "Strong",
+      "Excellent"
+    ],
+    "display_rules": {
+      "show_numeric_level": false,
+      "show_band_language": false
+    }
+  },
+  "level_explanation_rules": {
+    "style": "student_simple_AO2_embedded",
+    "max_words": 25,
+    "must_reference_student_content": true,
+    "must_reference_case": true,
+    "must_include_concrete_case_example_factor": true,
+    "must_state_missing_rule": true,
+    "allowed_missing_rules": [
+      "two sides",
+      "clear comparison",
+      "final decision",
+      "linked explanation"
+    ],
+    "format_template": "You did {student_did}, but didn’t {missing_piece} (e.g., {case_factor_example}). You need {missing_rule}.",
+    "forbidden_terms": [
+      "developed",
+      "sustained",
+      "coherent",
+      "integrated",
+      "partial",
+      "limited",
+      "evaluate",
+      "evaluation",
+      "analyse",
+      "analysis",
+      "AO1",
+      "AO2",
+      "AO3"
+    ]
+  },
+  "checklist_rules": {
+    "style": "icons_plus_micro_phrases",
+    "max_items": 5,
+    "allowed_items": [
+      "Used the case",
+      "Explained effects",
+      "Built a chain",
+      "Compared two sides",
+      "Final decision"
+    ],
+    "symbols": {
+      "met": "✓",
+      "partial": "~",
+      "not_met": "✗"
+    }
+  },
+  "fix_it_activity_rule": {
+    "enabled": true,
+    "trigger_when_missing_rule_in": [
+      "two sides",
+      "clear comparison",
+      "final decision",
+      "linked explanation"
+    ],
+    "layout": "boxed_activity_under_card",
+    "title": "Now improve this point",
+    "must_include": ["direct_question", "sentence_starter", "write_lines_pdf"],
+    "max_words": {
+      "direct_question": 14,
+      "sentence_starter": 12
+    },
+    "sentence_starter_rules": {
+      "must_reference_case": true,
+      "must_end_with_ellipsis": true
+    },
+    "pdf_write_lines": {
+      "line_count": 3,
+      "line_style": "dashed"
+    }
+  },
+  "space_efficiency_rules": {
+    "no_paragraph_prose": true,
+    "max_sentences_in_any_block": 1,
+    "max_words_in_any_note": 12
+  }
+}
