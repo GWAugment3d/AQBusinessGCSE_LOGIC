@@ -5,8 +5,8 @@
     "specification": "8132",
     "subject": "GCSE Business",
     "config_id": "aqa8132_core_marking_logic",
-    "config_version": "1.2.0",
-    "last_updated_utc": "2026-01-25T00:00:00Z",
+    "config_version": "1.2.2",
+    "last_updated_utc": "2026-01-28T00:00:00Z",
     "design_goals": [
       "Zero drift: UI/wording changes must not change marks",
       "Examiner-faithful AQA Level of Response (LoR)",
@@ -198,7 +198,7 @@
       "definition": "A developed point includes: claim + explanation + consequence (at least one clear link)."
     },
     "analysis_chain": {
-      "definition": "Point → consequence → implication. Multi-step if more than one consequence/implication link.",
+      "definition": "Point \u2192 consequence \u2192 implication. Multi-step if more than one consequence/implication link.",
       "minimum_for_analysis_credit": 1
     },
     "balanced_evaluation": {
@@ -206,7 +206,7 @@
       "mere_listing_is_not_balance": true
     },
     "justified_judgement": {
-      "definition": "A conclusion/choice that is explicitly stated and justified with context-linked reasoning, often conditional ('depends on…') or prioritised factor.",
+      "definition": "A conclusion/choice that is explicitly stated and justified with context-linked reasoning, often conditional ('depends on\u2026') or prioritised factor.",
       "must_link_to_context": true
     },
     "application_AO2": {
@@ -453,7 +453,7 @@
           ],
           "descriptor": "Nothing worthy of credit.",
           "hard_gates": [
-            "no_relevant_content"
+            "answer_non_empty==false"
           ]
         },
         {
@@ -464,7 +464,7 @@
           ],
           "descriptor": "Basic analysis; limited development; weakly applied.",
           "hard_gates": [
-            "some_relevant_business_content"
+            "answer_non_empty==true"
           ]
         },
         {
@@ -475,8 +475,8 @@
           ],
           "descriptor": "Sound analysis; some application; at least one developed chain.",
           "hard_gates": [
-            "some_application_to_context",
-            "at_least_one_clear_chain_link"
+            "some_application_to_context==true",
+            "at_least_one_clear_chain_link==true"
           ]
         },
         {
@@ -487,8 +487,8 @@
           ],
           "descriptor": "Detailed analysis driven by context; developed chains; clear consequences.",
           "hard_gates": [
-            "clear_contextual_application",
-            "multi_step_reasoning_present"
+            "clear_contextual_application==true",
+            "multi_step_reasoning_present==true"
           ]
         }
       ],
@@ -580,7 +580,7 @@
           ],
           "descriptor": "Nothing worthy of credit.",
           "hard_gates": [
-            "no_relevant_content"
+            "answer_non_empty==false"
           ]
         },
         {
@@ -597,7 +597,7 @@
             "No justified recommendation"
           ],
           "hard_gates": [
-            "some_relevant_business_content"
+            "answer_non_empty==true"
           ]
         },
         {
@@ -613,8 +613,8 @@
             "Conclusion may be weakly justified"
           ],
           "hard_gates": [
-            "some_application_to_context",
-            "at_least_one_reasoned_point"
+            "some_application_to_context==true",
+            "(analysis_chains_count>=1 OR analysis_chain_links>=1)"
           ]
         },
         {
@@ -630,10 +630,10 @@
             "Explicit justified recommendation"
           ],
           "hard_gates": [
-            "clear_contextual_application",
-            "multi_step_reasoning_present",
-            "explicit_recommendation==true",
-            "justification_links_to_context"
+            "clear_contextual_application==true",
+            "multi_step_reasoning_present==true",
+            "recommendation_present==true",
+            "justification_links_to_context==true"
           ],
           "top_mark_only_if": [
             "balanced_evaluation==true",
@@ -730,7 +730,33 @@
           }
         },
         "selection_rule": "Pick the highest mark in the awarded level whose checks are satisfied. If none satisfied, pick the lowest mark in that level."
-      }
+      },
+      "award_floors": [
+        {
+          "id": "non_empty_min_1",
+          "description": "Non-empty recommend responses must not be awarded 0.",
+          "when_all_true": {
+            "answer_non_empty": true
+          },
+          "enforce": {
+            "min_level": 1,
+            "min_mark": 1
+          }
+        },
+        {
+          "id": "non_empty_applied_chain_min_level_2_recommend",
+          "description": "Non-empty recommend responses with AO2 + at least one chain link must not be awarded below Level 2 midpoint.",
+          "when_all_true": {
+            "answer_non_empty": true,
+            "ao2_application_detected": true,
+            "analysis_chain_links_min": 1
+          },
+          "enforce": {
+            "min_level": 2,
+            "min_mark": 4
+          }
+        }
+      ]
     },
     "12_mark_evaluate": {
       "marks": 12,
@@ -744,7 +770,7 @@
           ],
           "descriptor": "Nothing worthy of credit.",
           "hard_gates": [
-            "no_relevant_content"
+            "answer_non_empty==false"
           ]
         },
         {
@@ -758,6 +784,9 @@
             "Generic",
             "No evaluation",
             "No developed reasoning"
+          ],
+          "hard_gates": [
+            "answer_non_empty==true"
           ]
         },
         {
@@ -772,7 +801,7 @@
             "Balance mentioned not weighed"
           ],
           "hard_gates": [
-            "some_application_to_context"
+            "some_application_to_context==true"
           ]
         },
         {
@@ -787,9 +816,9 @@
             "Judgement not fully justified"
           ],
           "hard_gates": [
-            "good_application_to_context",
-            "some_analysis_present",
-            "some_evaluative_language_present"
+            "clear_contextual_application==true",
+            "(analysis_chains_count>=1 OR analysis_chain_links>=1)",
+            "evaluation_present==true"
           ]
         },
         {
