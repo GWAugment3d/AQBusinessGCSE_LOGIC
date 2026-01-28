@@ -1,0 +1,10 @@
+{
+  "version": "contracts_index_v1",
+  "files": {
+    "marking_logic": "https://raw.githubusercontent.com/GWAugment3d/AQBusinessGCSE_LOGIC/main/Marking_logic_v1.json",
+    "annotation_contract": "https://raw.githubusercontent.com/GWAugment3d/AQBusinessGCSE_LOGIC/main/annotation_contract.json",
+    "report_contract": "https://raw.githubusercontent.com/GWAugment3d/AQBusinessGCSE_LOGIC/main/report_contract.json",
+    "deepmark_output_schema": "https://raw.githubusercontent.com/GWAugment3d/AQBusinessGCSE_LOGIC/main/deepmark_output_schema.json",
+    "deepmark_extraction_schema": "https://raw.githubusercontent.com/GWAugment3d/AQBusinessGCSE_LOGIC/main/deepmark_extraction_schema.json"
+  }
+}
