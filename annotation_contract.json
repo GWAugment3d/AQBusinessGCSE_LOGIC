@@ -1,0 +1,57 @@
+{
+  "contract_name": "deepmark_annotation_contract",
+  "contract_version": "ann_v1.1.0",
+  "status_symbols": {
+    "met": "✓",
+    "partial": "~",
+    "not_met": "✗",
+    "missing": "?"
+  },
+  "ao_tags": ["AO1-k", "AO2-app", "AO3-an", "AO3-eval"],
+  "annotation_token_format": {
+    "pattern": "^[\\[]([✓~✗\\?])(AO1-k|AO2-app|AO3-an|AO3-eval)[\\]]$",
+    "examples": ["[✓AO1-k]", "[~AO2-app]", "[✗AO3-an]", "[?AO3-eval]"]
+  },
+  "inline_annotation_rules": {
+    "max_tags_per_sentence": 2,
+    "max_note_words": 12,
+    "note_required_when_status_in": ["✗", "~"],
+    "forbidden_prose": [
+      "AO1 achieved",
+      "AO2 achieved",
+      "AO3 achieved",
+      "knowledge shown",
+      "good evaluation",
+      "overall",
+      "this demonstrates",
+      "the student shows"
+    ]
+  },
+  "short_answer_report_style": {
+    "correct": "✓",
+    "incorrect": "✗",
+    "missing": "?"
+  },
+  "visual_cues": {
+    "renderer_applied_only": true,
+    "underline": {
+      "enabled": true,
+      "targets": ["key_term", "case_detail"]
+    },
+    "box_connectives": {
+      "enabled": true,
+      "connectives": [
+        "because",
+        "therefore",
+        "this means",
+        "so",
+        "leads to",
+        "results in"
+      ]
+    },
+    "italics": {
+      "enabled": true,
+      "targets": ["case_detail"]
+    }
+  }
+}
