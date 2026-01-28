@@ -1,14 +1,15 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "DeepMark Extraction Schema v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gwaugment3d.github.io/deepmark/deepmark_extraction_schema.json",
+  "title": "DeepMark Extraction Schema",
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "required": ["paper_meta", "extractedAnswers", "transcriptRaw"],
   "properties": {
     "paper_meta": {
       "type": "object",
-      "additionalProperties": true,
-      "required": ["student_name"],
+      "additionalProperties": false,
+      "required": ["student_name", "student_year", "test_title", "test_date"],
       "properties": {
         "student_name": { "type": "string" },
         "student_year": { "type": "string" },
@@ -16,26 +17,32 @@
         "test_date": { "type": "string" }
       }
     },
-    "transcriptRaw": { "type": "string" },
-
     "extractedAnswers": {
       "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^(0[1-9]|[1-9][0-9])\\.[1-9][0-9]?$": {
-          "type": "object",
-          "additionalProperties": true,
-          "required": ["qid", "text"],
-          "properties": {
-            "qid": { "type": "string" },
-            "text": { "type": "string" },
-            "source": { "type": "string" },
-            "wordCount": { "type": "integer" },
-            "charCount": { "type": "integer" },
-            "diagnosticNote": { "type": "string" }
-          }
+      "description": "Map of question id (e.g., 01.1, 02.5) to extracted answer payload",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["qid", "text", "source", "wordCount", "charCount"],
+        "properties": {
+          "qid": {
+            "type": "string",
+            "pattern": "^[0-9]{2}\\.[0-9]{1,2}$"
+          },
+          "text": { "type": "string" },
+          "source": {
+            "type": "string",
+            "enum": ["transcript", "ocr", "manual", "unknown"]
+          },
+          "wordCount": { "type": "integer", "minimum": 0 },
+          "charCount": { "type": "integer", "minimum": 0 },
+          "diagnosticNote": { "type": "string" }
         }
       }
+    },
+    "transcriptRaw": {
+      "type": "string",
+      "description": "Raw transcript used for extraction. May include timestamps and section markers."
     }
   }
 }
