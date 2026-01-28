@@ -1,6 +1,6 @@
 {
   "contract_name": "deepmark_report_contract",
-  "contract_version": "rep_v1.3.0",
+  "contract_version": "2026-01-28.2",
   "target_spec": "AQA_GCSE_Business_8132",
   "page_budget": {
     "pdf_pages_total": 2,
@@ -12,16 +12,33 @@
     "enabled": true,
     "position": "top_of_page_1",
     "max_lines": 4,
-    "must_include": ["student_name", "student_year", "test_title", "test_date"],
-    "optional_compact_meta": ["total_score", "total_marks", "percent"],
+    "must_include": [
+      "student_name",
+      "student_year",
+      "test_title",
+      "test_date"
+    ],
+    "optional_compact_meta": [
+      "total_score",
+      "total_marks",
+      "percent"
+    ],
     "layout_style": "title_then_compact_meta_rows"
   },
   "report_sections": {
-    "order": ["short_answer_grid", "extended_response_cards"],
+    "order": [
+      "short_answer_grid",
+      "extended_response_cards"
+    ],
     "short_answer_grid": {
       "enabled": true,
       "cell_style": "tight",
-      "show_only": ["qid", "student_answer", "correct_answer", "status_symbol"],
+      "show_only": [
+        "qid",
+        "student_answer",
+        "correct_answer",
+        "status_symbol"
+      ],
       "max_hint_words_when_wrong": 0
     },
     "extended_response_cards": {
@@ -33,7 +50,11 @@
     }
   },
   "extended_markers": {
-    "apply_to_marks": [6, 9, 12],
+    "apply_to_marks": [
+      6,
+      9,
+      12
+    ],
     "required_blocks": [
       "score_and_level_label",
       "one_line_level_explanation",
@@ -110,7 +131,11 @@
     ],
     "layout": "boxed_activity_under_card",
     "title": "Now improve this point",
-    "must_include": ["direct_question", "sentence_starter", "write_lines_pdf"],
+    "must_include": [
+      "direct_question",
+      "sentence_starter",
+      "write_lines_pdf"
+    ],
     "max_words": {
       "direct_question": 14,
       "sentence_starter": 12
@@ -128,5 +153,21 @@
     "no_paragraph_prose": true,
     "max_sentences_in_any_block": 1,
     "max_words_in_any_note": 12
+  },
+  "marking_discipline": {
+    "ao3_usage": {
+      "rule": "AO3 (analysis/evaluation) is only relevant for extended-response questions (typically 6+ marks). Do NOT add AO3-eval/AO3-an notes or evaluation language to 1–4 mark items unless the question explicitly demands it (rare).",
+      "minimum_marks_for_ao3": 6,
+      "never_for_marks_at_or_below": 4
+    },
+    "definition_questions": {
+      "rule": "For definition-style questions (e.g., 'Define/What is...'), focus on AO1 knowledge. Keep it concise; do not force AO2/AO3."
+    },
+    "annotation_requirement": {
+      "extended_answers_must_include_inline_annotations": true,
+      "min_inline_annotations_per_extended_answer": 2,
+      "format": "Use the annotation token format in the annotation contract exactly. Each inline annotation must quote the student's phrase and apply the correct AO tag.",
+      "do_not_omit": true
+    }
   }
 }

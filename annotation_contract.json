@@ -1,21 +1,34 @@
 {
   "contract_name": "deepmark_annotation_contract",
-  "contract_version": "ann_v1.1.0",
+  "contract_version": "2026-01-28.2",
   "status_symbols": {
     "met": "✓",
     "partial": "~",
     "not_met": "✗",
     "missing": "?"
   },
-  "ao_tags": ["AO1-k", "AO2-app", "AO3-an", "AO3-eval"],
+  "ao_tags": [
+    "AO1-k",
+    "AO2-app",
+    "AO3-an",
+    "AO3-eval"
+  ],
   "annotation_token_format": {
     "pattern": "^[\\[]([✓~✗\\?])(AO1-k|AO2-app|AO3-an|AO3-eval)[\\]]$",
-    "examples": ["[✓AO1-k]", "[~AO2-app]", "[✗AO3-an]", "[?AO3-eval]"]
+    "examples": [
+      "[✓AO1-k]",
+      "[~AO2-app]",
+      "[✗AO3-an]",
+      "[?AO3-eval]"
+    ]
   },
   "inline_annotation_rules": {
     "max_tags_per_sentence": 2,
     "max_note_words": 12,
-    "note_required_when_status_in": ["✗", "~"],
+    "note_required_when_status_in": [
+      "✗",
+      "~"
+    ],
     "forbidden_prose": [
       "AO1 achieved",
       "AO2 achieved",
@@ -36,7 +49,10 @@
     "renderer_applied_only": true,
     "underline": {
       "enabled": true,
-      "targets": ["key_term", "case_detail"]
+      "targets": [
+        "key_term",
+        "case_detail"
+      ]
     },
     "box_connectives": {
       "enabled": true,
@@ -51,7 +67,12 @@
     },
     "italics": {
       "enabled": true,
-      "targets": ["case_detail"]
+      "targets": [
+        "case_detail"
+      ]
     }
-  }
+  },
+  "notes": [
+    "Updated: Inline annotations are mandatory for extended responses; do not generate AO3 tags for <=4 mark items unless explicitly demanded by the question."
+  ]
 }
